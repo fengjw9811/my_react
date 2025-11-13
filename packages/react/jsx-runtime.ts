@@ -1,11 +1,6 @@
-import { ReactElementType } from "shared/ReactElementType";
+import { ReactElement } from "shared/ReactElementType";
 
-function ReactElement(
-  type: any,
-  props: any,
-  key: any,
-  ref: any
-): ReactElementType {
+function ReactElement(type: any, props: any, key: any, ref: any): ReactElement {
   return {
     $$typeof:
       typeof Symbol === "function" && Symbol.for
