@@ -2,20 +2,37 @@
 // 输出
 // 插件
 
-import path from "path";
-import { rollup, defineConfig } from "rollup";
-import typescript from "@rollup/plugin-typescript";
-import babel from "@rollup/plugin-babel";
+const path = require("path");
+const fs = require("fs");
+const { rollup, defineConfig } = require("rollup");
+const typescript = require("@rollup/plugin-typescript");
+const babel = require("@rollup/plugin-babel");
 
 const packages = defineConfig([
   {
-    name: "test",
-    input: "packages/test/index.ts",
+    name: "react",
+    input: "packages/react/index.ts",
     output: [
       {
-        file: "packages/test/dist/index.js",
+        file: "./dist/react/index.js",
         format: "umd",
-        name: "Test",
+        name: "react",
+      },
+    ],
+  },
+  {
+    name: "jsx-runtime",
+    input: "packages/react/jsx-runtime.ts",
+    output: [
+      {
+        file: "./dist/react/jsx-runtime.js",
+        format: "umd",
+        name: "jsx-runtime",
+      },
+      {
+        file: "./dist/react/jsx-dev-runtime.js",
+        format: "umd",
+        name: "jsx-dev-runtime",
       },
     ],
   },
@@ -42,6 +59,19 @@ async function build() {
       await bundle.write(output);
     }
   }
+  const packageJson = {
+    name: "react",
+    version: "1.0.0",
+    main: "index.js",
+  };
+  const reactDir = path.join("dist", "react");
+  if (!fs.existsSync(reactDir)) {
+    fs.mkdirSync(reactDir, { recursive: true });
+  }
+  fs.writeFileSync(
+    path.join(reactDir, "package.json"),
+    JSON.stringify(packageJson, null, 2)
+  );
 }
 
 build();
