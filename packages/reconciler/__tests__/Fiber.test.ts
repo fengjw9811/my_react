@@ -30,7 +30,8 @@ describe("fiber测试", () => {
   test("测试createFiberFromTypeAndProps", () => {
     const type = "div";
     const key = "test-key";
-    const fiber = createFiberFromTypeAndProps(type, key);
+    const props = null;
+    const fiber = createFiberFromTypeAndProps(type, props, key);
     expect(fiber.tag).toBe(HostComponent);
     expect(fiber.key).toBe(key);
     expect(fiber.elementType).toBe(type);

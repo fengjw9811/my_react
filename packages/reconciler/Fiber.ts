@@ -12,24 +12,27 @@ export function createFiber(tag: WorkTag, key: string | null): Fiber {
     child: null,
     sibling: null,
     ref: null,
+    pendingProps: null,
   };
   return fiber;
 }
 
 export function createFiberFromTypeAndProps(
   type: any,
+  pendingProps: any,
   key: string | null
 ): Fiber {
   let fiberTag: WorkTag = HostComponent;
   const fiber = createFiber(fiberTag, key);
   fiber.elementType = type;
   fiber.type = type;
+  fiber.pendingProps = pendingProps;
   return fiber;
 }
 
 // ReactElement -> FiberNode
 export function createFiberFromElement(element: ReactElement): Fiber {
-  const { type, key } = element;
-  const fiber: Fiber = createFiberFromTypeAndProps(type, key);
+  const { type, props, key } = element;
+  const fiber: Fiber = createFiberFromTypeAndProps(type, props, key);
   return fiber;
 }
