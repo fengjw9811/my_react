@@ -1,7 +1,7 @@
 import { ReactElement } from "shared/ReactElementType";
 import { createFiberFromElement, createHostRootFiber } from "./Fiber";
 import { createFiberRoot } from "./FiberRoot";
-import { Fiber, FiberRoot } from "./ReactInternalTypes";
+import { Fiber } from "./ReactInternalTypes";
 import { workLoop } from "./WorkLoop";
 import { appendChild } from "./FiberConfigDom";
 

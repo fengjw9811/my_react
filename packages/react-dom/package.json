@@ -1,0 +1,9 @@
+{
+  "name": "react-dom",
+  "version": "1.0.0",
+  "description": "",
+  "main": "client.ts",
+  "dependencies": {
+    "reconciler": "workspace:*"
+  }
+}

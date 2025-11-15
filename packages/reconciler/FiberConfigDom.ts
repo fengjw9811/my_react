@@ -41,9 +41,8 @@ export function setInitialProps(dom: Instance, props: any) {
     if (prop === "children") {
       if (typeof props.children === "string") {
         dom.textContent = props.children;
-      } else {
-        continue;
       }
+      continue;
     }
     dom.setAttribute(prop, props[prop]);
   }

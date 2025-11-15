@@ -4,7 +4,8 @@
     "module": "esnext",
     "moduleResolution": "node",
     "paths": {
-      "shared/*": ["./packages/shared/*"]
+      "shared/*": ["./packages/shared/*"],
+      "reconciler/*": ["./packages/reconciler/*"]
     },
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
