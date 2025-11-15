@@ -39,7 +39,7 @@ export const MULTIPLE_ELEMENT = {
         key: null,
         props: {
           children: [
-            "du1 react",
+            "du1 react ",
             {
               $$typeof: REACT_ELEMENT_TYPE,
               type: "span",

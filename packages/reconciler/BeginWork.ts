@@ -1,5 +1,5 @@
 import { reconcileChildFibers } from "./ChildFiber";
-import { Fiber } from "./ReactInternalTypes";
+import { Fiber, HostText } from "./ReactInternalTypes";
 
 /**
  * 遍历开始阶段要做的工作
@@ -9,6 +9,9 @@ import { Fiber } from "./ReactInternalTypes";
 export function beginWork(fiber: Fiber): Fiber | null {
   // 纯文本节点
   if (typeof fiber.pendingProps.children === "string") {
+    return null;
+  }
+  if (fiber.tag === HostText) {
     return null;
   }
   // 1. 创建子节点
