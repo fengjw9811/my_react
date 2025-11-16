@@ -1,5 +1,10 @@
 import { reconcileChildFibers } from "./ChildFiber";
-import { Fiber, HostText } from "./ReactInternalTypes";
+import {
+  Fiber,
+  FunctionComponent,
+  HostComponent,
+  HostText,
+} from "./ReactInternalTypes";
 
 /**
  * 遍历开始阶段要做的工作
@@ -11,10 +16,17 @@ export function beginWork(fiber: Fiber): Fiber | null {
   if (typeof fiber.pendingProps.children === "string") {
     return null;
   }
-  if (fiber.tag === HostText) {
-    return null;
+  switch (fiber.tag) {
+    case HostText:
+      return null;
+    case FunctionComponent:
+      const children = fiber.type();
+      fiber.child = reconcileChildFibers(fiber, children);
+      return fiber.child;
+    case HostComponent:
+      fiber.child = reconcileChildFibers(fiber, fiber.pendingProps.children);
+      return fiber.child;
+    default:
+      return null;
   }
-  // 1. 创建子节点
-  fiber.child = reconcileChildFibers(fiber, fiber.pendingProps.children);
-  return fiber.child;
 }
