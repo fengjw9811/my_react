@@ -3,10 +3,16 @@ import { updateOnFiber } from "./WorkLoop";
 
 export type Hook = {
   memoizedState: any;
+  next: Hook | null;
 };
 
 // 当前正在渲染的fiber
 let currentlyRenderingFiber: Fiber | null = null;
+// 当前工作的hook
+let workInProgressHook: Hook | null = null;
+
+// 定义一个导出的状态管理hook
+export let useState: any = null;
 
 /**
  * 更新组件状态值
@@ -20,8 +26,27 @@ function setState(newState: any) {
   updateOnFiber(currentlyRenderingFiber!);
 }
 
-// 定义一个导出的状态管理hook
-export let useState: any = null;
+/**
+ * mount阶段创建hook对象
+ * @param initialState 初始状态
+ * @returns hook对象
+ */
+function mountWorkInProgressHook(initialState: any) {
+  const hook: Hook = {
+    memoizedState: initialState,
+    next: null,
+  };
+  if (workInProgressHook === null) {
+    // 如果当前工作的hook为空，说明是第一个hook，将hook挂载到fiber的memoizedState上
+    currentlyRenderingFiber!.memoizedState = hook;
+  } else {
+    // 否则将hook挂载到当前工作的hook的next上
+    workInProgressHook.next = hook;
+  }
+  // 将当前工作的hook指向新创建的hook
+  workInProgressHook = hook;
+  return hook;
+}
 
 /**
  * 首次构建时状态管理的hook
@@ -32,10 +57,7 @@ export let useState: any = null;
  * @returns [state, setState]
  */
 export function mountState(initialState: any) {
-  const hook: Hook = {
-    memoizedState: initialState,
-  };
-  currentlyRenderingFiber!.memoizedState = hook;
+  const hook = mountWorkInProgressHook(initialState);
   return [hook.memoizedState, setState];
 }
 
