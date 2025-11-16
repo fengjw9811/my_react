@@ -20,6 +20,7 @@ describe("fiber测试", () => {
     expect(fiber.child).toBeNull();
     expect(fiber.sibling).toBeNull();
     expect(fiber.ref).toBeNull();
+    expect(fiber.memoizedState).toBeNull();
   });
   test("测试createFiber无key", () => {
     const tag = HostComponent;
