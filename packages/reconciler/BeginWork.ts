@@ -13,7 +13,10 @@ import {
  */
 export function beginWork(fiber: Fiber): Fiber | null {
   // 纯文本节点
-  if (typeof fiber.pendingProps.children === "string") {
+  if (
+    typeof fiber.pendingProps.children === "string" ||
+    typeof fiber.pendingProps.children === "number"
+  ) {
     return null;
   }
   switch (fiber.tag) {

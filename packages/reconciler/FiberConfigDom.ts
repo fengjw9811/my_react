@@ -39,7 +39,10 @@ export function setInitialProps(dom: Instance, props: any) {
       continue;
     }
     if (prop === "children") {
-      if (typeof props.children === "string") {
+      if (
+        typeof props.children === "string" ||
+        typeof props.children === "number"
+      ) {
         dom.textContent = props.children;
       }
       continue;

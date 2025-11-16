@@ -1,11 +1,25 @@
 import { beginWork } from "../BeginWork";
-import { MULTIPLE_ELEMENT, SINGLE_ELEMENT } from "../data";
+import {
+  MULTIPLE_ELEMENT,
+  SINGLE_ELEMENT,
+  SINGLE_NUMBER_ELEMENT,
+} from "../data";
 import { createFiberFromElement } from "../Fiber";
 import { HostComponent, HostText } from "../ReactInternalTypes";
 
 describe("beginWork测试", () => {
   test("单节点测试", () => {
     const root_fiber = createFiberFromElement(SINGLE_ELEMENT);
+    const child_fiber = beginWork(root_fiber);
+    expect(child_fiber?.type).toBe("p");
+    expect(root_fiber.pendingProps).not.toBeNull();
+    expect(child_fiber?.pendingProps).not.toBeNull();
+    expect(child_fiber?.return).toBe(root_fiber);
+    expect(root_fiber.child).toBe(child_fiber);
+  });
+
+  test("单节点数字测试", () => {
+    const root_fiber = createFiberFromElement(SINGLE_NUMBER_ELEMENT);
     const child_fiber = beginWork(root_fiber);
     expect(child_fiber?.type).toBe("p");
     expect(root_fiber.pendingProps).not.toBeNull();
