@@ -20,19 +20,33 @@ function setState(newState: any) {
   updateOnFiber(currentlyRenderingFiber!);
 }
 
+// 定义一个导出的状态管理hook
+export let useState: any = null;
+
 /**
- * 创建一个状态管理的hook
+ * 首次构建时状态管理的hook
  * 1. 创建一个hook
  * 2. 将hook挂载到fiber的memoizedState上
  * 3. 返回状态和更新状态的方法
  * @param initialState 初始状态
  * @returns [state, setState]
  */
-export function useState(initialState: any) {
+export function mountState(initialState: any) {
   const hook: Hook = {
     memoizedState: initialState,
   };
   currentlyRenderingFiber!.memoizedState = hook;
+  return [hook.memoizedState, setState];
+}
+
+/**
+ * 更新时状态管理的hook
+ * 1. 获取当前fiber的hook
+ * 2. 返回状态和更新状态的方法
+ * @returns [state, setState]
+ */
+export function updateState() {
+  const hook = currentlyRenderingFiber?.memoizedState;
   return [hook.memoizedState, setState];
 }
 
@@ -46,5 +60,12 @@ export function useState(initialState: any) {
  */
 export function renderWithHooks(workInProgress: Fiber, Component: any) {
   currentlyRenderingFiber = workInProgress;
+  if (currentlyRenderingFiber.memoizedState === null) {
+    console.log("首次构建");
+    useState = mountState;
+  } else {
+    console.log("更新");
+    useState = updateState;
+  }
   return Component();
 }

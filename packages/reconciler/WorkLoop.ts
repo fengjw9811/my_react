@@ -1,6 +1,6 @@
 import { beginWork } from "./BeginWork";
 import { completeWork } from "./CompleteWork";
-import { appendChild } from "./FiberConfigDom";
+import { appendChild, removeChild } from "./FiberConfigDom";
 import { Fiber } from "./ReactInternalTypes";
 
 // 当前正在处理的节点
@@ -68,8 +68,12 @@ function getRootForUpdateFiber(fiber: Fiber): Fiber {
  * @param {Fiber} fiber
  */
 export function updateOnFiber(fiber: Fiber): void {
-  workLoop(fiber);
   const hostRootFiber = getRootForUpdateFiber(fiber);
+  removeChild(
+    hostRootFiber.stateNode.containerInfo,
+    hostRootFiber.child?.stateNode
+  );
+  workLoop(fiber);
   appendChild(
     hostRootFiber.stateNode.containerInfo,
     hostRootFiber.child?.stateNode

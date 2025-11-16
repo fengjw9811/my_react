@@ -29,6 +29,15 @@ export function appendChild(parent: Instance, child: Instance) {
 }
 
 /**
+ * 删除子节点
+ * @param parent 父节点
+ * @param child 子节点
+ */
+export function removeChild(parent: Instance, child: Instance) {
+  parent.removeChild(child);
+}
+
+/**
  * 设置属性
  * @param dom
  * @param props
