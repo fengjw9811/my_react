@@ -40,3 +40,4 @@ export function jsx(type: any, config: any, mayBeKey?: any) {
 }
 
 export const jsxDEV = jsx;
+export const jsxs = jsx;

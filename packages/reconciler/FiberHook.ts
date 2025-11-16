@@ -1,5 +1,6 @@
 import { Fiber } from "./ReactInternalTypes";
 import { updateOnFiber } from "./WorkLoop";
+import { ReactSharedInternals } from "../react";
 
 export type Hook = {
   memoizedState: any;
@@ -11,9 +12,6 @@ export type Hook = {
 let currentlyRenderingFiber: Fiber | null = null;
 // 当前工作的hook
 let workInProgressHook: Hook | null = null;
-
-// 定义一个导出的状态管理hook
-export let useState: any = null;
 
 /**
  * 分发更新对应状态值的方法
@@ -101,11 +99,12 @@ export function updateState() {
 export function renderWithHooks(workInProgress: Fiber, Component: any) {
   currentlyRenderingFiber = workInProgress;
   if (currentlyRenderingFiber.memoizedState === null) {
-    useState = mountState;
+    ReactSharedInternals.H = mountState;
   } else {
-    useState = updateState;
+    ReactSharedInternals.H = updateState;
   }
   const result = Component();
   workInProgressHook = null;
+  console.log(ReactSharedInternals);
   return result;
 }

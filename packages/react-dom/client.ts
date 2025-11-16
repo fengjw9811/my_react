@@ -25,5 +25,3 @@ export function createRoot(containerInfo: HTMLElement): ReactDOMRootType {
   const hostRootFiber = createContainer(containerInfo);
   return ReactDOMRoot(hostRootFiber);
 }
-
-export { useState } from "reconciler/FiberHook";
