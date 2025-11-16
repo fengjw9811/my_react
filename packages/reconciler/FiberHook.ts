@@ -3,6 +3,7 @@ import { updateOnFiber } from "./WorkLoop";
 
 export type Hook = {
   memoizedState: any;
+  dispatch: any;
   next: Hook | null;
 };
 
@@ -15,15 +16,16 @@ let workInProgressHook: Hook | null = null;
 export let useState: any = null;
 
 /**
- * 更新组件状态值
+ * 分发更新对应状态值的方法
  * 1. 更改状态值
  * 2. 重新渲染组件
+ * @param {Fiber} fiber hook所在的fiber
+ * @param {Hook} hook 当前的hook
  * @param newState 新的状态值
  */
-function setState(newState: any) {
-  const hook = currentlyRenderingFiber?.memoizedState;
+function dispatchSetState(fiber: Fiber, hook: Hook, newState: any) {
   hook.memoizedState = newState;
-  updateOnFiber(currentlyRenderingFiber!);
+  updateOnFiber(fiber);
 }
 
 /**
@@ -34,6 +36,7 @@ function setState(newState: any) {
 function mountWorkInProgressHook(initialState: any) {
   const hook: Hook = {
     memoizedState: initialState,
+    dispatch: null,
     next: null,
   };
   if (workInProgressHook === null) {
@@ -49,6 +52,19 @@ function mountWorkInProgressHook(initialState: any) {
 }
 
 /**
+ * update阶段获取当前的hook
+ * @returns 当前的hook
+ */
+function updateWorkInProgressHook() {
+  if (workInProgressHook === null) {
+    workInProgressHook = currentlyRenderingFiber!.memoizedState;
+  } else {
+    workInProgressHook = workInProgressHook.next!;
+  }
+  return workInProgressHook;
+}
+
+/**
  * 首次构建时状态管理的hook
  * 1. 创建一个hook
  * 2. 将hook挂载到fiber的memoizedState上
@@ -58,7 +74,9 @@ function mountWorkInProgressHook(initialState: any) {
  */
 export function mountState(initialState: any) {
   const hook = mountWorkInProgressHook(initialState);
-  return [hook.memoizedState, setState];
+  const dispatch = dispatchSetState.bind(null, currentlyRenderingFiber!, hook);
+  hook.dispatch = dispatch;
+  return [hook.memoizedState, dispatch];
 }
 
 /**
@@ -68,8 +86,8 @@ export function mountState(initialState: any) {
  * @returns [state, setState]
  */
 export function updateState() {
-  const hook = currentlyRenderingFiber?.memoizedState;
-  return [hook.memoizedState, setState];
+  const hook = updateWorkInProgressHook()!;
+  return [hook.memoizedState, hook.dispatch];
 }
 
 /**
@@ -83,11 +101,11 @@ export function updateState() {
 export function renderWithHooks(workInProgress: Fiber, Component: any) {
   currentlyRenderingFiber = workInProgress;
   if (currentlyRenderingFiber.memoizedState === null) {
-    console.log("首次构建");
     useState = mountState;
   } else {
-    console.log("更新");
     useState = updateState;
   }
-  return Component();
+  const result = Component();
+  workInProgressHook = null;
+  return result;
 }
