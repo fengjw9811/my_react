@@ -15,7 +15,7 @@ const packages = defineConfig([
     output: [
       {
         file: "./dist/react/index.js",
-        format: "esm",
+        format: "umd",
         name: "react",
       },
     ],
@@ -31,12 +31,12 @@ const packages = defineConfig([
     output: [
       {
         file: "./dist/react/jsx-runtime.js",
-        format: "esm",
+        format: "umd",
         name: "jsx-runtime",
       },
       {
         file: "./dist/react/jsx-dev-runtime.js",
-        format: "esm",
+        format: "umd",
         name: "jsx-dev-runtime",
       },
     ],
@@ -47,7 +47,7 @@ const packages = defineConfig([
     output: [
       {
         file: "./dist/react-dom/client.js",
-        format: "esm",
+        format: "umd",
         name: "react-dom",
       },
     ],
