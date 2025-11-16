@@ -1,4 +1,4 @@
-import { MULTIPLE_ELEMENT } from "../data";
+import { MULTIPLE_ELEMENT } from "./data";
 import { createFiberFromElement } from "../Fiber";
 import { HostComponent, HostText } from "../ReactInternalTypes";
 import { workLoop } from "../WorkLoop";

@@ -1,4 +1,5 @@
 import { reconcileChildFibers } from "./ChildFiber";
+import { renderWithHooks } from "./FiberHook";
 import {
   Fiber,
   FunctionComponent,
@@ -23,7 +24,7 @@ export function beginWork(fiber: Fiber): Fiber | null {
     case HostText:
       return null;
     case FunctionComponent:
-      const children = fiber.type();
+      const children = renderWithHooks(fiber, fiber.type);
       fiber.child = reconcileChildFibers(fiber, children);
       return fiber.child;
     case HostComponent:

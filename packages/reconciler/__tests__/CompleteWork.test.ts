@@ -1,6 +1,6 @@
 import { beginWork } from "../BeginWork";
 import { completeWork } from "../CompleteWork";
-import { MULTIPLE_ELEMENT } from "../data";
+import { MULTIPLE_ELEMENT } from "./data";
 import { createFiberFromElement } from "../Fiber";
 
 describe("completeWork测试", () => {

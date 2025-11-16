@@ -3,7 +3,7 @@ import {
   MULTIPLE_ELEMENT,
   SINGLE_ELEMENT,
   SINGLE_NUMBER_ELEMENT,
-} from "../data";
+} from "./data";
 import { createFiberFromElement } from "../Fiber";
 import { HostComponent, HostText } from "../ReactInternalTypes";
 

@@ -1,8 +1,11 @@
 {
   "compilerOptions": {
     "target": "esnext",
+    "jsx": "react-jsx",
+    "jsxImportSource": "packages/react",
     "module": "esnext",
     "moduleResolution": "node",
+    "baseUrl": ".",
     "paths": {
       "shared/*": ["./packages/shared/*"],
       "reconciler/*": ["./packages/reconciler/*"]
@@ -12,6 +15,6 @@
     "strict": true,
     "skipLibCheck": true
   },
-  "include": ["packages/**/*"],
+  "include": ["packages/**/*", "./global.d.ts"],
   "exclude": ["node_modules", "dist"]
 }

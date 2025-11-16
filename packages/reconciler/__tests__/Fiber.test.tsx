@@ -3,8 +3,9 @@ import {
   createFiberFromTypeAndProps,
   createFiberFromElement,
 } from "../Fiber";
-import { HostComponent } from "../ReactInternalTypes";
+import { FunctionComponent, HostComponent } from "../ReactInternalTypes";
 import { ReactElement } from "shared/ReactElementType";
+import { Test } from "./FCdata";
 
 describe("fiber测试", () => {
   test("测试createFiber有key", () => {
@@ -51,5 +52,10 @@ describe("fiber测试", () => {
     expect(fiber.key).toBe(element.key);
     expect(fiber.elementType).toBe(element.type);
     expect(fiber.type).toBe(element.type);
+  });
+  test("测试函数组件", () => {
+    const fiber = createFiberFromElement(<Test />);
+    expect(fiber.tag).toBe(FunctionComponent);
+    expect(fiber.type).toBe(Test);
   });
 });
