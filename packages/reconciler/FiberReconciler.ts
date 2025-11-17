@@ -3,7 +3,8 @@ import { createFiberFromElement, createHostRootFiber } from "./Fiber";
 import { createFiberRoot } from "./FiberRoot";
 import { Fiber } from "./ReactInternalTypes";
 import { workLoop } from "./WorkLoop";
-import { appendChild } from "./FiberConfigDom";
+import { appendChild } from "react-dom-binding/FiberConfigDom";
+import { listenToAllSupportedEvents } from "react-dom-binding/DOMPluginEventSystem";
 
 /**
  * 创建FiberRoot、HostRootFiber，并建立关联
@@ -14,6 +15,7 @@ export function createContainer(containerInfo: HTMLElement) {
   const root = createFiberRoot(containerInfo);
   const hostRootFiber = createHostRootFiber();
   hostRootFiber.stateNode = root;
+  listenToAllSupportedEvents(root.containerInfo);
   return hostRootFiber;
 }
 

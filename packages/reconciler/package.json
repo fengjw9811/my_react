@@ -4,6 +4,7 @@
   "description": "reconciler",
   "module": "index.ts",
   "dependencies": {
-    "shared": "workspace:*"
+    "shared": "workspace:*",
+    "react-dom-binding": "workspace:*"
   }
 }

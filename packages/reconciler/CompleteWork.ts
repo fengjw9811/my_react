@@ -4,7 +4,7 @@ import {
   createTextInstance,
   Instance,
   setInitialProps,
-} from "./FiberConfigDom";
+} from "react-dom-binding/FiberConfigDom";
 import {
   Fiber,
   FunctionComponent,
@@ -43,7 +43,7 @@ export function completeWork(fiber: Fiber): void {
       break;
     case HostComponent:
       // 1. 创建真实DOM节点
-      const instance = createInstance(fiber.type);
+      const instance = createInstance(fiber.type, fiber);
       // 关联dom节点
       appendAllChildren(instance, fiber.child);
       // 设置属性

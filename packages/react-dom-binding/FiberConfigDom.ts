@@ -1,3 +1,6 @@
+import { Fiber } from "reconciler/ReactInternalTypes";
+import { precacheFiberNode } from "./ReactDOMComponentTree";
+
 export type Instance = HTMLElement;
 export type TextInstance = Text;
 
@@ -12,11 +15,14 @@ export function createTextInstance(text: string): TextInstance {
 
 /**
  * 创建DOM节点
- * @param type
- * @returns
+ * @param {string} type
+ * @param {Fiber} fiber
+ * @returns {Instance}
  */
-export function createInstance(type: string) {
-  return document.createElement(type);
+export function createInstance(type: string, fiber: Fiber): Instance {
+  let domElement = document.createElement(type);
+  precacheFiberNode(fiber, domElement);
+  return domElement;
 }
 
 /**
