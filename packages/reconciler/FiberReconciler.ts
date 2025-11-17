@@ -3,8 +3,8 @@ import { createFiberFromElement, createHostRootFiber } from "./Fiber";
 import { createFiberRoot } from "./FiberRoot";
 import { Fiber } from "./ReactInternalTypes";
 import { workLoop } from "./WorkLoop";
-import { appendChild } from "react-dom-binding/FiberConfigDom";
 import { listenToAllSupportedEvents } from "react-dom-binding/DOMPluginEventSystem";
+import { commitMutationEffects } from "./CommitWork";
 
 /**
  * 创建FiberRoot、HostRootFiber，并建立关联
@@ -35,5 +35,5 @@ export function updateContainer(element: ReactElement, root: Fiber) {
   root.child = containerFiber;
   containerFiber.return = root;
   // 3. 挂载子fiber到root dom上
-  appendChild(root.stateNode.containerInfo, root.child.stateNode);
+  commitMutationEffects(root);
 }
